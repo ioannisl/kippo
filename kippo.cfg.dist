@@ -12,13 +12,13 @@
 # Port to listen for incoming SSH connections.
 #
 # (default: 2222)
-ssh_port = 2222
+ssh_port = 22
 
 # Hostname for the honeypot. Displayed by the shell prompt of the virtual
 # environment.
 #
 # (default: svr03)
-hostname = svr03
+hostname = devops05
 
 # Directory where to save log files in.
 #
@@ -42,6 +42,9 @@ download_path = dl
 #
 # (default: false)
 exit_jail = false
+
+# sftp_enabled enables the sftp subsystem
+sftp_enabled = true
 
 # Directory where virtual file contents are kept in.
 #
@@ -206,3 +209,4 @@ interact_port = 5123
 #identifier = abc123
 #secret = secret
 #debug=false
+
