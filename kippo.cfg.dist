@@ -12,13 +12,13 @@
 # Port to listen for incoming SSH connections.
 #
 # (default: 2222)
-ssh_port = 2222
+ssh_port = 22
 
 # Hostname for the honeypot. Displayed by the shell prompt of the virtual
 # environment.
 #
 # (default: svr03)
-hostname = svr03
+hostname = devops05
 
 # Directory where to save log files in.
 #
@@ -36,6 +36,15 @@ download_path = dl
 #
 # (default: 0)
 #download_limit_size = 10485760
+
+# Allow the attacker to exit the honeypot on request or try to 'trick' the attacker with another shell.
+# note: depending on the attackers client (e.g. putty), will just quit regardless.
+#
+# (default: false)
+exit_jail = false
+
+# sftp_enabled enables the sftp subsystem
+sftp_enabled = true
 
 # Directory where virtual file contents are kept in.
 #
@@ -129,8 +138,8 @@ private_key = private.key
 # SSH-2.0-OpenSSH_5.9p1 Debian-5ubuntu1
 # SSH-2.0-OpenSSH_5.9
 #
-# (default: "SSH-2.0-OpenSSH_5.1p1 Debian-5")
-ssh_version_string = SSH-2.0-OpenSSH_5.1p1 Debian-5
+# (default: "SSH-2.0-OpenSSH_5.1 Debian-5")
+ssh_version_string = SSH-2.0-OpenSSH_5.1 Debian-5
 
 # Banner file to be displayed before the first login attempt.
 #
@@ -200,3 +209,4 @@ interact_port = 5123
 #identifier = abc123
 #secret = secret
 #debug=false
+
