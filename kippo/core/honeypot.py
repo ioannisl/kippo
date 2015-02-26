@@ -15,9 +15,10 @@ from zope.interface import implements
 from copy import deepcopy, copy
 import sys, os, random, pickle, time, stat, shlex, anydbm
 
-from kippo.core import ttylog, fs, utils
+from kippo.core import ttylog, fs, utils, sshserver
 from kippo.core.userdb import UserDB
 from kippo.core.config import config
+import kippo.core.honeypot
 import commands
 
 import ConfigParser
@@ -518,7 +519,8 @@ class HoneyPotRealm:
         else:
             raise Exception, "No supported interfaces found."
 
-class HoneyPotTransport(transport.SSHServerTransport):
+#class HoneyPotTransport(transport.SSHServerTransport):
+class HoneyPotTransport(kippo.core.sshserver.KippoSSHServerTransport):
 
     hadVersion = False
 
@@ -530,16 +532,16 @@ class HoneyPotTransport(transport.SSHServerTransport):
         self.interactors = []
         self.logintime = time.time()
         self.ttylog_open = False
-        transport.SSHServerTransport.connectionMade(self)
+        kippo.core.sshserver.KippoSSHServerTransport.connectionMade(self)
 
     def sendKexInit(self):
         # Don't send key exchange prematurely
         if not self.gotVersion:
             return
-        transport.SSHServerTransport.sendKexInit(self)
+        kippo.core.sshserver.KippoSSHServerTransport.sendKexInit(self)
 
     def dataReceived(self, data):
-        transport.SSHServerTransport.dataReceived(self, data)
+        kippo.core.sshserver.KippoSSHServerTransport.dataReceived(self, data)
         # later versions seem to call sendKexInit again on their own
         if twisted.version.major < 11 and \
                 not self.hadVersion and self.gotVersion:
@@ -548,7 +550,7 @@ class HoneyPotTransport(transport.SSHServerTransport):
 
     def ssh_KEXINIT(self, packet):
         print 'Remote SSH version: %s' % (self.otherVersionString,)
-        return transport.SSHServerTransport.ssh_KEXINIT(self, packet)
+        return kippo.core.sshserver.KippoSSHServerTransport.ssh_KEXINIT(self, packet)
 
     def lastlogExit(self):
         starttime = time.strftime('%a %b %d %H:%M',
@@ -570,7 +572,7 @@ class HoneyPotTransport(transport.SSHServerTransport):
         if self.ttylog_open:
             ttylog.ttylog_close(self.ttylog_file, time.time())
             self.ttylog_open = False
-        transport.SSHServerTransport.connectionLost(self, reason)
+        kippo.core.sshserver.KippoSSHServerTransport.connectionLost(self, reason)
 
 from twisted.conch.ssh.common import NS, getNS
 class HoneyPotSSHUserAuthServer(userauth.SSHUserAuthServer):
