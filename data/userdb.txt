@@ -1,1 +1,4 @@
 root:0:123456
+sales:1:sales1234
+office:2:flowers3
+manager:3:12234
