@@ -1,4 +1,14 @@
 root:0:123456
+root: root
+root: admin
+root: power
+root: q1w2e3r4
+root: a123456
+root: oracle
+root: p@ssw0rd
+root: root00
+root: 111111
+root: qazwsx
 sales:1:sales1234
 office:2:flowers3
 manager:3:12234
